@@ -15,6 +15,10 @@
     background: none;
 }
 
+.mobile-icon {
+    display: none;
+}
+
 @media screen and (max-width: 1300px) {
     .cart {
         flex-wrap: wrap;
@@ -50,9 +54,27 @@
     }
 
     .form .form-item-container label {
-        width: 80%;
-        margin: 10px 0;
-        padding: 20px;
+        width: 70%;
+        margin: 5px 0;
+        padding: 15px;
+    }
+
+    .form-icon {
+        display: none;
+    }
+
+    .mobile-icon {
+        display: flex;
+        justify-content: space-evenly;
+        align-content: center;
+        align-items: center;
+        font-size: 1.2em;
+        .fa-home, .fa-gripfire, .fa-glass-martini,
+        .fa-hospital, .fa-car {
+            color: #fff;
+            padding: 5px;
+            margin: 10px;
+        }
     }
 
     .counter-explanation {
