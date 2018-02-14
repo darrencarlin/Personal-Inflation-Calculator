@@ -270,7 +270,6 @@ $(document).ready(function () {
 
     function calculatePersonal(data) {
         let currMonth = [];
-        let prevMonth = [];
         let nextMonth = [];
         let firstMonth = [];
         for (let i = 0; i < data.length; i++) {
