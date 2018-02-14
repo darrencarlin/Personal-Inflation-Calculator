@@ -265,71 +265,33 @@ $(document).ready(function () {
     }
 
 
-    // function 
+
     let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
     function calculatePersonal(data) {
-
         let currMonth = [];
         let prevMonth = [];
         let nextMonth = [];
         let firstMonth = [];
-
         for (let i = 0; i < data.length; i++) {
-            
+            nextMonth = [];
             currMonth = [];
             console.log(i)
-
-
             let currentMonth = months[i];
-
-            // Get intial month
             if (i === 0) {
                 for (let i = 0; i < data.length; i++) {
                     firstMonth.push(data[i][currentMonth] * coinWeights[i]);
                 }
                 personalCPI.push(((firstMonth.reduce(getSum) / 100.00) * 100.00).toFixed(3));
                 continue
-            }
-                // delete from if not working
-
-            else {
-
+            } else {
                 for (let i = 0; i < data.length; i++) {
-
                     currMonth.push(data[i][currentMonth])
-
                     nextMonth.push(currMonth[i] * firstMonth[i]);
-
                 }
                 firstMonth = nextMonth;
                 personalCPI.push(((nextMonth.reduce(getSum) / 100.00) * 100.00).toFixed(3));
-
-
-
-             
-                if (i === 2) {
-                    console.log(currentMonth + " currMonth")
-                    console.log(currMonth)
-                    console.log("firstMonth")
-                    console.log(firstMonth)
-                    console.log("nextMonth")
-                    console.log(nextMonth)
-                    console.log("nextMonth")
-                    console.log(nextMonth)
-                    break
-                }
-
             }
-
-
-
-
-            //currentMonth = months[1];
-            //console.log(data[0][currentMonth])
-            //break
-
-
         }
     }
 
