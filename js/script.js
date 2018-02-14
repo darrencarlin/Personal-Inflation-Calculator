@@ -290,6 +290,9 @@ $(document).ready(function () {
                 }
                 firstMonth = nextMonth;
                 personalCPI.push(((nextMonth.reduce(getSum) / 100.00) * 100.00).toFixed(3));
+                if (i === 11) {
+                    break
+                }
             }
         }
     }
