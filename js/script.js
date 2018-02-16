@@ -1,6 +1,5 @@
+"use strict";
 $(document).ready(function () {
-
-    "use strict";
 
     let counterTotal = document.getElementById("counterTotal");
     let total = 0;
@@ -195,45 +194,34 @@ $(document).ready(function () {
     }];
     let coinsTotal = 100;
     let globalDiff
-    let coinWeights = [11, 9, 3, 5, 5, 5, 11, 3, 14, 2, 3, 8, 11, 10];
-    let coinsInUse = 0; // total number of coins in coinWeights 
+    let coinWeights = [11, 9, 3, 5, 5, 5, 11, 3, 14, 2, 3, 8, 11, 10]; 
+   
+
     let nationalCPI = [99.5, 100.4, 101.4, 101.4, 101.4, 101.2, 101.1, 101.7, 101.6, 101.5, 101.1, 101.2];
     let personalCPI = [];
     let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-    const avg = coinWeights.map(function (x) {
-        return x / 100.00
-    });
+    function getSum(total, num) {
+        return total + num;
+    }
+    let coinsInUse = 0 // total number of coins in coinWeights 
 
-    const returnAvg = avg.map(function (y) {
-        return Math.round(y * 100.00)
-    });
-
-    // 0, Health Insurance
-    const avgss = [
-        0.126603656, // Food
-        0.091050036, // Alcohol
-        0, // Tobacco
-        0.055633795, // Clothing
-        0.178411073, // Rent
-        0, // Mortage
-        0, // Housing
-        0.032617524, // Health
-        0.13212786, // Car
-        0.027006057, // Public Transport
-        0.035881013, // Telecommunications
-        0.036451821, // Education
-        0.080588118, // Recreation
-        0.122454034, // RestHotelCafe
-        0.081175013 // Other
-    ];
+    function calculateIndex(arr) {
+        // first 100 changed to whatever is in use at a given time
+    
+        return ((arr.reduce(getSum) / coinsTotal) * 100).toFixed(2)
+    }
 
     function calculatePersonal(data) {
         personalCPI = [];
         let currMonth = [];
         let nextMonth = [];
         let firstMonth = [];
+     
+        console.log(coinWeights)
+        console.log(coinsTotal);
         for (let i = 0; i < data.length; i++) {
+           
             nextMonth = [];
             currMonth = [];
             let currentMonth = months[i];
@@ -256,29 +244,95 @@ $(document).ready(function () {
             }
         }
         personalCPI = personalCPI.map(Number);
+
         renderHighchart();
+       
+        console.log(personalCPI)
     }
 
-    function getSum(total, num) {
-        return total + num;
-    }
-
-    function calculateIndex(arr) {
-        // first 100 changed to whatever is in use at a given time
-        console.log(coinsTotal)
-        return ((arr.reduce(getSum) / 64) * 100).toFixed(2)
-    }
     calculatePersonal(jsonData);
-    console.log(personalCPI);
-    // document.querySelector("#cartItem9"),
+
+   
+  
+    // data is calculated, stored in an array 
+    // now we want to populate the table based on these figures, 100 coins is too much so we bring them down by dividing by 100
+
+    const avg = coinWeights.map(function (x) {
+        return x / 100
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // document.querySelector("#cartItem9"), Health Insurance
+    // document.querySelector("#cartItem15"), Restuarants, Hotel, Cafe
     let containers = [
-        document.querySelector("#cartItem1"), document.querySelector("#cartItem2"), document.querySelector("#cartItem3"),
-        document.querySelector("#cartItem4"), document.querySelector("#cartItem5"), document.querySelector("#cartItem6"),
-        document.querySelector("#cartItem7"), document.querySelector("#cartItem8"),
-        document.querySelector("#cartItem10"), document.querySelector("#cartItem11"), document.querySelector("#cartItem12"),
-        document.querySelector("#cartItem13"), document.querySelector("#cartItem14"), document.querySelector("#cartItem15"),
-        document.querySelector("#cartItem16")
+        document.querySelector("#cartItem1"), // Food
+        document.querySelector("#cartItem2"), // Alcohol
+        document.querySelector("#cartItem3"), // Tobacco
+        document.querySelector("#cartItem4"), // Clothing
+        document.querySelector("#cartItem5"), // Rent 
+        document.querySelector("#cartItem6"), // Mortage 
+        document.querySelector("#cartItem7"), // Housing
+        document.querySelector("#cartItem8"), // Health
+        // 9 is skipped
+        document.querySelector("#cartItem10"), // Car
+        document.querySelector("#cartItem11"), // Public Transport
+        document.querySelector("#cartItem12"), // Telecommunications
+        document.querySelector("#cartItem13"), // Education
+        document.querySelector("#cartItem14"), // Recreation
+        // 15 is not in 2012 data
+        document.querySelector("#cartItem16") // Other 
     ];
+
+    // function to calculate coins in use at the beginning 
+    // loop through all the carts, 
+    // get counter value, divide that value by the coinWeight index
+    // multiply that value by the number of coins in the counter
+    // store it in a global variable that keeps track of coins in use 
+
+
     // using bind for 'this' (binds this to .minus)
     $(".minus").bind("click touchstart", function (e) {
         e.stopImmediatePropagation();
@@ -308,12 +362,15 @@ $(document).ready(function () {
         // function to return coin weights to orginal value
         // re-update coin weights array by multiplying index by 100 and then re-update highcharts
         function calcDifferenceMinus(index) {
-            let numDifMinus = coinWeights[index] / counterNum;
-            globalDiff = numDifMinus;
-            let val = coinWeights[index] -= numDifMinus;
-            if (coinWeights[index] < 1) {
-                coinWeights[index] = 0
-            }
+            coinWeights[index] -= 1
+            coinsTotal -= 1
+         
+            //let numDifMinus = coinWeights[index] / counterNum;
+            //globalDiff = numDifMinus;
+            //coinsTotal -= numDifMinus;
+            //if (coinWeights[index] < 1) {
+            //    coinWeights[index] = 0
+            //} //let val = // coinWeights[index]
         }
         if (id === "cartItem1") {
             calcDifferenceMinus(0);
@@ -344,13 +401,13 @@ $(document).ready(function () {
         } else if (id === "cartItem14") {
             calcDifferenceMinus(13);
         } else if (id === "cartItem15") {
-            calcDifferenceMinus(14);
+            // do nothing - html currently commented out
         } else if (id === "cartItem16") {
-            calcDifferenceMinus(15);
+            calcDifferenceMinus(13);
         }
-        console.log(coinWeights);
         calculatePersonal(jsonData);
     });
+
     $(".plus").bind("click touchstart", function (e) {
         e.stopImmediatePropagation();
         e.preventDefault();
@@ -383,7 +440,9 @@ $(document).ready(function () {
         }
 
         function calcDifferencePlus(index) {
-            [index] += globalDiff
+            coinWeights[index] += 1
+            coinsTotal += 1
+            
         }
         if (id === "cartItem1") {
             calcDifferencePlus(0);
@@ -404,94 +463,157 @@ $(document).ready(function () {
         } else if (id === "cartItem9") {
             // do nothing - html currently commented out
         } else if (id === "cartItem10") {
-            calcDifferencePlus(9);
+            calcDifferencePlus(8);
         } else if (id === "cartItem11") {
-            calcDifferencePlus(10);
+            calcDifferencePlus(9);
         } else if (id === "cartItem12") {
-            calcDifferencePlus(11);
+            calcDifferencePlus(10);
         } else if (id === "cartItem13") {
-            calcDifferencePlus(12);
+            calcDifferencePlus(11);
         } else if (id === "cartItem14") {
-            calcDifferencePlus(13);
+            calcDifferencePlus(12);
         } else if (id === "cartItem15") {
-            calcDifferencePlus(14);
+            // do nothing - html currently commented out
         } else if (id === "cartItem16") {
-            calcDifferencePlus(15);
+            calcDifferencePlus(13);
         }
-        console.log(coinWeights);
         calculatePersonal(jsonData);
     });
     // Check toggle states
     $("input[type='radio']").change(changeState);
-    console.log(coinWeights)
 
     function changeState() {
         if (this.value === "Mortgaged Owner Occupied Home") {
+
             $("#cartItem5").addClass("overlay");
             $("#cartItem6, #cartItem7").removeClass("overlay");
-            coinWeights[4] = 0;
-            coinsTotal = coinsTotal - 5;
+
+            if (coinWeights[4] === 5) {
+                coinWeights[4] = 0;
+                coinsTotal -= 5;
+          
+            }
+        
+            if (coinWeights[5] === 0) {
+                coinWeights[5] = 5
+                coinsTotal += 5;
+           
+            }
+
         } else if (this.value === "Owner Occupied Home (No Mortgage)") {
+
             $("#cartItem5, #cartItem6").addClass("overlay");
             $("#cartItem7").removeClass("overlay");
-            coinWeights[4] = 0;
-            coinWeights[5] = 0;
-            coinsTotal = coinsTotal - 10
+
+            if (coinWeights[4] === 5) {
+                coinWeights[4] = 0;
+                coinsTotal -= 5;
+              
+            }
+
+            if (coinWeights[5] === 5) {
+                coinWeights[5] = 0;
+                coinsTotal -= 5;
+           
+            }
+           
         } else if (this.value === "Rental Accommodation") {
+
             $("#cartItem6").addClass("overlay");
             $("#cartItem5, #cartItem7").removeClass("overlay");
-            coinWeights[5] = 0;
-            coinsTotal = coinsTotal - 5;
-        } else if (this.value === "Insurance-Yes") {
-            $("#cartItem9").removeClass("overlay");
-        } else if (this.value === "Insurance-No") {
-            $("#cartItem9").addClass("overlay");
+
+            if (coinWeights[5] === 5) {
+                coinWeights[5] = 0;
+                coinsTotal -= 5;
+             
+            }
+            if (coinWeights[4] === 0) {
+                coinWeights[4] = 5;
+                coinsTotal += 5;
+            
+            }
+            
         } else if (this.value === "Car-Yes") {
+
             $("#cartItem10").removeClass("overlay");
+
+            if (coinWeights[8] === 0) {
+                coinWeights[8] = 14;
+                coinsTotal += 14;
+             
+            }
+            
         } else if (this.value === "Car-No") {
+
             $("#cartItem10").addClass("overlay");
-            coinWeights[8] = 0;
-            coinsTotal = coinsTotal - 14
+
+            if (coinWeights[8] === 14) {
+                coinWeights[8] = 0;
+                coinsTotal = coinsTotal - 14;
+            
+            }
+           
         } else if (this.value === "Smoker-Yes") {
+
             $("#cartItem3").removeClass("overlay");
+
+            if (coinWeights[2] === 0) {
+                coinWeights[2] = 3;
+                coinsTotal = coinsTotal + 3;
+               
+            }
+           
         } else if (this.value === "Smoker-No") {
+
             $("#cartItem3").addClass("overlay");
-            coinWeights[2] = 0;
-            coinsTotal = coinsTotal - 3
+
+            if (coinWeights[2] === 3) {
+                coinWeights[2] = 0;
+                coinsTotal = coinsTotal - 3;
+             
+            }
+            
         } else if (this.value === "Drinker-Yes") {
+
             $("#cartItem2").removeClass("overlay");
+
+            if (coinWeights[1] === 0) {
+                coinWeights[1] = 9;
+                coinsTotal = coinsTotal + 9;
+              
+            }
+           
         } else if (this.value === "Drinker-No") {
             $("#cartItem2").addClass("overlay");
-            coinWeights[1] = 0;
-            coinsTotal = coinsTotal - 9;
+
+            if (coinWeights[1] === 9) {
+                coinWeights[1] = 0;
+                coinsTotal = coinsTotal - 9;
+              
+            }
+            
         }
-        console.log(coinWeights);
         calculatePersonal(jsonData);
+  console.log(coinWeights)
     }
-    // Submit Button
-    $("#questionSubmit").click(function () {
-        let counterTotalNum = parseInt(counterTotal.innerHTML);
-        if (counterTotalNum > 0) {
-            $(".counter-feedback").text("You Still Have Coins To Use");
-            $(".counter-feedback").css("opacity", "1");
-            setTimeout(function () {
-                $(".counter-feedback").text("");
-                $(".counter-feedback").css("opacity", "0");
-            }, 3000);
-        }
-    });
+ 
+
     wage = 2000;
+
     // Calculate average weights
     function calculateWeights(arr) {
         for (let i = 0; i < arr.length; i++) {
             calculatedWeights.push(arr[i] * wage);
         }
     }
+
     calculateWeights(avg);
+
     // Calculate coins based on €50 per coin
     function calculateCoins(index) {
-        return Math.round(calculatedWeights[index] / 39);
+        return Math.round(calculatedWeights[index] / 30);
     };
+
     // Populate containers with average weights, populate counters
     function populate() {
         let total = 0;
@@ -508,55 +630,18 @@ $(document).ready(function () {
             newArr.push(num);
         }
     };
+
     populate();
-    //$("#questionSubmit").click(function () {
-    //    // Calculating a percentage 
-    //    let output = [];
-    //    for (let i = 0; i < newArr.length; i++) {
-    //        let num = newArr[i] * 0.9;
-    //        output.push(num.toFixed(2));
-    //    }
-    //    // Adding % sign
-    //    function percentage(i) {
-    //        for (let y = i; y < output.length; y++) {
-    //            return (output[y] + "%");
-    //        }
-    //    }
-    //    // Inserting into span
-    //    for (let i = 0; i < containers.length; i++) {
-    //        let item = containers[i]
-    //        let span = item.firstElementChild;
-    //        span.innerHTML = percentage(i);
-    //    }
-    //});
-    // Reset Button
-    $("#reset").click(function () {
-        $("#select-housing, #select-smoker, #select-drink, #select-health, #select-car").prop('selectedIndex', 0).change();
-        total = 0;
-        counterTotal.innerHTML = 0;
-        // remove overlays
-        $("#cart *").removeClass("overlay");
-        // reset counters
-        let counter = $(".counter");
-        for (let i = 0; i < counter.length; i++) {
-            counter[i].innerHTML = "0"
-        }
-        // remove units/coins
-        let elements = document.getElementsByClassName("unit");
-        while (elements.length > 0) elements[0].remove();
-        // clear array
-        calculatedWeights = [];
-        calculateWeights(avg);
-        populate();
-    });
+
+
     // Auto Adjust
     $("input[type='radio']").change(autoAdjust);
 
     function autoAdjust(event) {
+
         let currVal;
         let currVal2;
-        // let arrSelect = event.currentTarget.children
-        //var arrOption = [].slice.call(arrSelect);
+
         if ($(this).val() === "Mortgaged Owner Occupied Home") {
             currVal = document.querySelector("#cartItem5 > .counter").innerHTML
             if (currVal > 0) {
@@ -710,5 +795,5 @@ $(document).ready(function () {
             }
         });
     }
-    //console.log($(".unit").length)
+
 });
