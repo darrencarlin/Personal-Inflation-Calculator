@@ -1,7 +1,9 @@
 ﻿<div class="cpi-container">
     <div class="counter-explanation">
         <p>
-            Coins below are populated on an average, each coin represents a percentage of your total. The larger counter below displays remainder coins as you adjust the table. Use the + and - to do so.
+            Coins below are populated on an average, each coin represents a 1% of your total.
+            The larger counter below displays remainder coins as you adjust the table.
+            Use the + and - to do so.
         </p>
         <p>
             Answer the five questions below to adjust the table accordingly.
@@ -20,7 +22,7 @@
                         <label for="MortgagedOwnerOccupiedHome">Mortgage</label>
                         <input class="housing" id="OwnerOccupiedHome" name="housing" value="Owner Occupied Home (No Mortgage)" type="radio">
                         <label for="OwnerOccupiedHome">Owner</label>
-                        <input class="housing" id="RentalAccommodation" name="housing" value="Rental Accommodation" type="radio">
+                        <input class="housing" id="RentalAccommodation" name="housing" value="Rental Accommodation" type="radio" checked>
                         <label for="RentalAccommodation">Rent</label>
                     </div>
                 </fieldset>
@@ -35,7 +37,7 @@
                         <span class="mobile-icon">Do you smoke? <i class="fab fa-gripfire fa-2x"></i></span>
                         <input class="smoking" id="smokerYes" name="smoking" value="Smoker-Yes" type="radio">
                         <label for="smokerYes">Yes</label>
-                        <input class="smoking" id="smokerNo" name="smoking" value="Smoker-No" type="radio">
+                        <input class="smoking" id="smokerNo" name="smoking" value="Smoker-No" type="radio" checked>
                         <label for="smokerNo">No</label>
                     </div>
                 </fieldset>
@@ -49,15 +51,15 @@
                             <p>Drinker</p><i class="fas fa-glass-martini fa-3x"></i>
                         </div>
                         <span class="mobile-icon">Do you drink? <i class="fas fa-glass-martini fa-2x"></i></span>
-                        <input class="alcohol" id="alcoholYes" name="alcohol" value="Drinker-Yes" type="radio">
+                        <input class="alcohol" id="alcoholYes" name="alcohol" value="Drinker-Yes" type="radio" checked>
                         <label for="alcoholYes">Yes</label>
-                        <input class="alcohol" id="alcoholNo" name="alcohol" value="Drinker-No" type="radio">
+                        <input class="alcohol" id="alcoholNo" name="alcohol" value="Drinker-No" type="radio" >
                         <label for="alcoholNo">No</label>
                     </div>
                 </fieldset>
             </div>
 
-            <div class="form-insurance">
+            <!--<div class="form-insurance">
                 <fieldset class="form-fieldset">
 
                     <div class="form-item-container">
@@ -73,7 +75,7 @@
                         <label for="insuranceNo">No</label>
                     </div>
                 </fieldset>
-            </div>
+            </div>-->
 
             <div class="form-car">
                 <fieldset class="form-fieldset">
@@ -83,76 +85,99 @@
                             <p>Car</p><i class="fas fa-car fa-3x"></i>
                         </div>
                         <span class="mobile-icon">Do you drive? <i class="fas fa-car fa-2x"></i></span>
-                        <input class="car" id="carYes" name="car" value="Car-Yes" type="radio">
+                        <input class="car" id="carYes" name="car" value="Car-Yes" type="radio" checked>
                         <label for="carYes">Yes</label>
                         <input class="car" id="carNo" name="car" value="Car-No" type="radio">
                         <label for="carNo">No</label>
                     </div>
                 </fieldset>
             </div>
+            <div class="btn-container">
+                <div class="btn-highchart" id="lineChart" title="Line Chart"><i class="fas fa-chart-line fa-2x"></i></div>
+                <div class="btn-highchart" id="percentageChart" title="Percentage Change"><i class="fas fa-percent fa-2x"></i></div>
+                <div class="btn-highchart" id="pieChart" title="Pie Chart"><i class="fas fa-chart-pie fa-2x"></i></div>
+                <div class="btn-highchart" id="reset" title="Reset"><i class="fas fa-redo-alt fa-2x"></i></div>
+                <div class="btn-text">Total Coins Remaining:</div>
+                <div class="counter-total" id="counterTotal">
+                    0
+                </div>
+                <div class="counter-feedback"></div>
+
+            </div>
         </div>
-        <div class="highcharts" id="container" height:400px;"></div>
+
+        <div class="highcharts chart1" id="container" height:400px;"></div>
+        <div class="highcharts chart2 close" id="container2" height:400px;"></div>
+        
+        
+   
+
     </div>
-    <div class="ui-content" role="main">
+    <!--<div class="ui-content" role="main">
+
+
         <div class="container">
 
 
 
         </div>
-        <div class="counter-container">
-            <div class="counter-total" id="counterTotal">
-                0
-            </div>
-            <div class="counter-feedback"></div>
-        </div>
-    </div>
+
+
+    </div>-->
 </div>
+
 <div class="cart" id="cart">
 
     <div class="cart-theme-general">
-        <h3>General</h3>
+        <h2>General</h2>
+        <h3>Food &amp; Beverages</h3>
         <div class="cart-item" id="cartItem1" title="Food">
             <span class="counter">0</span>
             <span class="icon"><i aria-hidden="true" class="fas fa-utensils fa-3x"></i></span>
-            <span class="title">Food &amp; Non-Alcoholic Beverages</span>
+            <!--<span class="title">Food &amp; Non-Alcoholic Beverages</span>-->
             <span class="minus" id="minus"><i aria-hidden="true" class="fas fa-minus fa-2x"></i></span>
             <span class="plus" id="plus"><i aria-hidden="true" class="fas fa-plus fa-2x"></i></span>
         </div>
+        <h3>Clothing</h3>
         <div class="cart-item" id="cartItem4" title="Clothing">
             <span class="counter">0</span>
             <span class="icon"><i aria-hidden="true" class="fab fa-black-tie fa-3x"></i></span>
-            <span class="title">Clothing</span>
+            <!--<span class="title">Clothing</span>-->
             <span class="minus" id="minus"><i aria-hidden="true" class="fas fa-minus fa-2x"></i></span>
             <span class="plus" id="plus"><i aria-hidden="true" class="fas fa-plus fa-2x"></i></span>
         </div>
+        <h3>Telecommunications</h3>
         <div class="cart-item" id="cartItem12" title="Telecommunication">
             <span class="counter">0</span>
             <span class="icon"><i aria-hidden="true" class="fas fa-mobile-alt fa-3x"></i></span>
-            <span class="title">Telecommunications</span>
+            <!--<span class="title">Telecommunications</span>-->
             <span class="minus" id="minus"><i aria-hidden="true" class="fas fa-minus fa-2x"></i></span>
             <span class="plus" id="plus"><i aria-hidden="true" class="fas fa-plus fa-2x"></i></span>
         </div>
     </div>
 
     <div class="cart-theme-housing">
-        <h3>Housing</h3>
+        <h2>Housing</h2>
+        <h3>Rent</h3>
         <div class="cart-item" id="cartItem5" title="Rent">
             <span class="counter">0</span>
             <span class="icon"><i aria-hidden="true" class="fas fa-building fa-3x"></i></span>
-            <span class="title">Rent and Other Housing Costs</span>
+            <!--<span class="title">Rent and Other Housing Costs</span>-->
             <span class="minus" id="minus"><i aria-hidden="true" class="fas fa-minus fa-2x"></i></span>
             <span class="plus" id="plus"><i aria-hidden="true" class="fas fa-plus fa-2x"></i></span>
         </div>
+        <h3>Mortage</h3>
         <div class="cart-item" id="cartItem6" title="Mortage">
             <span class="counter">0</span>
             <span class="icon"><i aria-hidden="true" class="fas fa-home fa-3x"></i></span>
-            <span class="title">House Mortgage Repayments </span>
+            <!--<span class="title">House Mortgage Repayments </span>-->
             <span class="minus" id="minus"><i aria-hidden="true" class="fas fa-minus fa-2x"></i></span>
             <span class="plus" id="plus"><i aria-hidden="true" class="fas fa-plus fa-2x"></i></span>
         </div>
+        <h3>Housing Costs</h3>
         <div class="cart-item" id="cartItem7" title="HousingCost">
             <span class="counter">0</span> <span class="icon"><i aria-hidden="true" class="far fa-lightbulb fa-3x"></i></span>
-            <span class="title">Housing Costs</span>
+            <!--<span class="title">Housing Costs</span>-->
             <span class="minus" id="minus"><i aria-hidden="true" class="fas fa-minus fa-2x"></i></span>
             <span class="plus" id="plus"><i aria-hidden="true" class="fas fa-plus fa-2x"></i></span>
         </div>
@@ -160,51 +185,55 @@
 
 
     <div class="cart-theme-health">
-        <h3>Health / Education</h3>
+        <h2>Health / Education</h2>
+        <h3>Health</h3>
         <div class="cart-item" id="cartItem8" title="Hospital">
             <span class="counter">0</span>
             <span class="icon"><i aria-hidden="true" class="fas fa-stethoscope fa-3x"></i></span>
-            <span class="title">Hospital Costs</span>
+            <!--<span class="title">Health</span>-->
             <span class="minus" id="minus"><i aria-hidden="true" class="fas fa-minus fa-2x"></i></span>
             <span class="plus" id="plus"><i aria-hidden="true" class="fas fa-plus fa-2x"></i></span>
         </div>
-        <div class="cart-item" id="cartItem9" title="HealthInsurance">
+        <!--<div class="cart-item" id="cartItem9" title="HealthInsurance">
             <span class="counter">0</span>
             <span class="icon"><i aria-hidden="true" class="fas fa-hospital fa-3x"></i></span>
             <span class="title">Health Insurance</span>
             <span class="minus" id="minus"><i aria-hidden="true" class="fas fa-minus fa-2x"></i></span>
             <span class="plus" id="plus"><i aria-hidden="true" class="fas fa-plus fa-2x"></i></span>
-        </div>
+        </div>-->
+        <h3>Education</h3>
         <div class="cart-item" id="cartItem13" title="Education">
             <span class="counter">0</span>
             <span class="icon"><i aria-hidden="true" class="fas fa-graduation-cap fa-3x"></i></span>
-            <span class="title">Education</span>
+            <!--<span class="title">Education</span>-->
             <span class="minus" id="minus"><i aria-hidden="true" class="fas fa-minus fa-2x"></i></span>
             <span class="plus" id="plus"><i aria-hidden="true" class="fas fa-plus fa-2x"></i></span>
         </div>
     </div>
 
     <div class="cart-theme-recreation">
-        <h3>Recreation</h3>
 
-        <div class="cart-item" id="cartItem15" title="RestHotelCafe">
+        <h2>Recreation</h2>
+        <!--<div class="cart-item" id="cartItem15" title="RestHotelCafe">
             <span class="counter">0</span>
             <span class="icon"> <i aria-hidden="true" class="fas fa-suitcase fa-3x"></i> </span>
             <span class="title">Restaurants, Hotels and Cafes</span>
             <span class="minus" id="minus"> <i aria-hidden="true" class="fas fa-minus fa-2x"></i></span>
             <span class="plus" id="plus"><i aria-hidden="true" class="fas fa-plus fa-2x"></i></span>
-        </div>
+        </div>-->
+        <h3>Alcohol</h3>
         <div class="cart-item" id="cartItem2" title="Alcohol">
             <span class="counter">0</span>
             <span class="icon"><i aria-hidden="true" class="fas fa-glass-martini fa-3x"></i></span>
-            <span class="title">Alcholic Beverages</span>
+            <!--<span class="title">Alcholic Beverages</span>-->
             <span class="minus" id="minus"><i aria-hidden="true" class="fas fa-minus fa-2x"></i></span>
             <span class="plus" id="plus"><i aria-hidden="true" class="fas fa-plus fa-2x"></i></span>
         </div>
+        <h3>Tobacco</h3>
         <div class="cart-item" id="cartItem3" title="Tobacco">
             <span class="counter">0</span>
             <span class="icon smoking">🚬</span>
-            <span class="title">Tobacco</span>
+            <!--<span class="title">Tobacco</span>-->
             <span class="minus" id="minus"><i aria-hidden="true" class="fas fa-minus fa-2x"></i></span>
             <span class="plus" id="plus"><i aria-hidden="true" class="fas fa-plus fa-2x"></i></span>
         </div>
@@ -212,35 +241,40 @@
 
     </div>
     <div class="cart-theme-transport">
-        <h3>Transport</h3>
+        <h2>Transportation</h2>
+        <h3>Car</h3>
         <div class="cart-item" id="cartItem10" title="Car">
             <span class="counter">0</span>
             <span class="icon"><i aria-hidden="true" class="fas fa-car fa-3x"></i></span>
-            <span class="title">Car Costs</span> <span class="minus" id="minus"><i aria-hidden="true" class="fas fa-minus fa-2x"></i></span>
+            <!--<span class="title">Car Costs</span>-->
+            <span class="minus" id="minus"><i aria-hidden="true" class="fas fa-minus fa-2x"></i></span>
             <span class="plus" id="plus"><i aria-hidden="true" class="fas fa-plus fa-2x"></i></span>
         </div>
+        <h3>Public Transport</h3>
         <div class="cart-item" id="cartItem11" title="PubTransport">
             <span class="counter">0</span>
             <span class="icon"><i aria-hidden="true" class="fas fa-bus fa-3x"></i></span>
-            <span class="title">Public Transport</span>
+            <!--<span class="title">Public Transport</span>-->
             <span class="minus" id="minus"><i aria-hidden="true" class="fas fa-minus fa-2x"></i></span>
             <span class="plus" id="plus"><i aria-hidden="true" class="fas fa-plus fa-2x"></i></span>
         </div>
     </div>
 
     <div class="cart-theme-other">
-        <h3>Other</h3>
+        <h2>Entertainment</h2>
+        <h3>Recreation</h3>
         <div class="cart-item" id="cartItem14" title="Recreation">
             <span class="counter">0</span>
             <span class="icon"><i aria-hidden="true" class="fas fa-camera fa-3x"></i></span>
-            <span class="title">Recreation and Culture</span>
+            <!--<span class="title">Recreation and Culture</span>-->
             <span class="minus" id="minus"><i aria-hidden="true" class="fas fa-minus fa-2x"></i></span>
             <span class="plus" id="plus"><i aria-hidden="true" class="fas fa-plus fa-2x"></i></span>
         </div>
+        <h3>Other</h3>
         <div class="cart-item" id="cartItem16" title="Other">
             <span class="counter">0</span>
             <span class="icon"><i aria-hidden="true" class="fas fa-question fa-3x"></i></span>
-            <span class="title">Other</span>
+            <!--<span class="title">Other</span>-->
             <span class="minus" id="minus"><i aria-hidden="true" class="fas fa-minus fa-2x"></i></span>
             <span class="plus" id="plus"><i aria-hidden="true" class="fas fa-plus fa-2x"></i></span>
         </div>

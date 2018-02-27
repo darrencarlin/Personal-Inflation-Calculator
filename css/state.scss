@@ -19,6 +19,16 @@
     display: none;
 }
 
+
+
+
+
+.chart1.close,
+.chart2.close {
+    display: none;
+    transition: all .3s ease-in-out;
+}
+
 @media screen and (max-width: 1300px) {
     .cart {
         flex-wrap: wrap;
@@ -45,6 +55,12 @@
 
 @media screen and (max-width: 500px) {
 
+    
+
+    .cart-item.overlay {
+        display: none;
+    }
+
     .form .form-item-container {
         flex-direction: column;
     }
@@ -69,6 +85,7 @@
         align-content: center;
         align-items: center;
         font-size: 1.2em;
+
         .fa-home, .fa-gripfire, .fa-glass-martini,
         .fa-hospital, .fa-car {
             color: #fff;
@@ -102,7 +119,7 @@
     }
 
     .form {
-        order: 2;
+        order: 0;
         width: 100%;
     }
 
@@ -156,9 +173,9 @@
     }
 
     .counter-feedback {
-        height: 15px;
+        height: 30px;
         padding: 10px;
-        margin: 5px 5px 15px 5px;
+        margin: 0;
     }
 
 

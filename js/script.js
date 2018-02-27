@@ -1,13 +1,9 @@
-"use strict";
-$(document).ready(function () {
-
+$(document).ready(function ready() {
+    "use strict";
     let counterTotal = document.getElementById("counterTotal");
-    let total = 0;
-    let wage;
-    let calculatedWeights = [];
     let counter;
     const coinHTML = "<div class='unit'><b><i aria-hidden='true' class='fas fa-euro-sign fa-2x'></i></b></div>";
-    let obj = {};
+    let calculatedWeights = [];
     let newArr = [];
     let jsonData = [{
         "Jan": 0.99482768,
@@ -192,24 +188,47 @@ $(document).ready(function () {
         "Nov": 0.999563858,
         "Dec": 1.006645227
     }];
-    let coinsTotal = 100;
     let globalDiff
-    let coinWeights = [11, 9, 3, 5, 5, 5, 11, 3, 14, 2, 3, 8, 11, 10]; 
-   
-
+    let coinWeights = [5, 4, 1, 2, 2, 2, 5, 1, 6, 1, 1, 4, 5, 5]
     let nationalCPI = [99.5, 100.4, 101.4, 101.4, 101.4, 101.2, 101.1, 101.7, 101.6, 101.5, 101.1, 101.2];
     let personalCPI = [];
+    let percentageChangePersonal = [];
+    let percentageChangeNational = [1.009045226, 1.009960159, 1, 1, 0.998027613, 0.999011858, 1.005934718, 0.999016716, 0.999015748, 0.996059113, 1.00098912];
     let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    let containers = [
+        document.querySelector("#cartItem1"),  // Food
+        document.querySelector("#cartItem2"),  // Alcohol
+        document.querySelector("#cartItem3"),  // Tobacco
+        document.querySelector("#cartItem4"),  // Clothing
+        document.querySelector("#cartItem5"),  // Rent 
+        document.querySelector("#cartItem6"),  // Mortage 
+        document.querySelector("#cartItem7"),  // Housing
+        document.querySelector("#cartItem8"),  // Health
+                                               // 9 is skipped
+        document.querySelector("#cartItem10"), // Car
+        document.querySelector("#cartItem11"), // Public Transport
+        document.querySelector("#cartItem12"), // Telecommunications
+        document.querySelector("#cartItem13"), // Education
+        document.querySelector("#cartItem14"), // Recreation
+                                               // 15 is not in 2012 data
+        document.querySelector("#cartItem16")  // Other 
+    ];
+    var total;
+    let coinsTotal;
+    // initial values 
+    coinWeights[5] = 0;
+    coinWeights[2] = 0;
+    total = 3;
+    counterTotal.innerHTML = 3;
+    coinsTotal = coinWeights.reduce((a, b) => a + b, 0);
+
+    // Calculate CPI
+    function calculateIndex(arr) {
+        return ((arr.reduce(getSum) / coinsTotal) * 100)
+    }
 
     function getSum(total, num) {
         return total + num;
-    }
-    let coinsInUse = 0 // total number of coins in coinWeights 
-
-    function calculateIndex(arr) {
-        // first 100 changed to whatever is in use at a given time
-    
-        return ((arr.reduce(getSum) / coinsTotal) * 100).toFixed(2)
     }
 
     function calculatePersonal(data) {
@@ -217,11 +236,7 @@ $(document).ready(function () {
         let currMonth = [];
         let nextMonth = [];
         let firstMonth = [];
-     
-        console.log(coinWeights)
-        console.log(coinsTotal);
         for (let i = 0; i < data.length; i++) {
-           
             nextMonth = [];
             currMonth = [];
             let currentMonth = months[i];
@@ -229,7 +244,7 @@ $(document).ready(function () {
                 for (let i = 0; i < data.length; i++) {
                     firstMonth.push(data[i][currentMonth] * coinWeights[i]);
                 }
-                personalCPI.push(calculateIndex(firstMonth));
+                personalCPI.push(calculateIndex(firstMonth).toFixed(2));
                 continue
             } else {
                 for (let i = 0; i < data.length; i++) {
@@ -237,104 +252,48 @@ $(document).ready(function () {
                     nextMonth.push(currMonth[i] * firstMonth[i]);
                 }
                 firstMonth = nextMonth;
-                personalCPI.push(calculateIndex(nextMonth));
+                personalCPI.push(calculateIndex(nextMonth).toFixed(2));
                 if (i === 11) {
                     break
                 }
             }
         }
         personalCPI = personalCPI.map(Number);
-
-        renderHighchart();
-       
-        console.log(personalCPI)
+        calculatePercentage(personalCPI)
+        renderHighchart(personalCPI, nationalCPI, 'Personal Inflation', 'National Inflation');
     }
 
     calculatePersonal(jsonData);
+    // Calculate CPI End
+
+    // Calculate CPI Percentage
+    function calculatePercentage(arr1) {
+        percentageChangePersonal = []
+        let firstIndex;
+        let secondIndex;
+        for (let i = 0; i < arr1.length - 1; i++) {
+            firstIndex = arr1[i];
+            secondIndex = arr1[i + 1];
+            percentageChangePersonal.push((secondIndex / firstIndex));
+        }
+    }
 
    
-  
-    // data is calculated, stored in an array 
-    // now we want to populate the table based on these figures, 100 coins is too much so we bring them down by dividing by 100
 
-    const avg = coinWeights.map(function (x) {
-        return x / 100
-    });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // document.querySelector("#cartItem9"), Health Insurance
-    // document.querySelector("#cartItem15"), Restuarants, Hotel, Cafe
-    let containers = [
-        document.querySelector("#cartItem1"), // Food
-        document.querySelector("#cartItem2"), // Alcohol
-        document.querySelector("#cartItem3"), // Tobacco
-        document.querySelector("#cartItem4"), // Clothing
-        document.querySelector("#cartItem5"), // Rent 
-        document.querySelector("#cartItem6"), // Mortage 
-        document.querySelector("#cartItem7"), // Housing
-        document.querySelector("#cartItem8"), // Health
-        // 9 is skipped
-        document.querySelector("#cartItem10"), // Car
-        document.querySelector("#cartItem11"), // Public Transport
-        document.querySelector("#cartItem12"), // Telecommunications
-        document.querySelector("#cartItem13"), // Education
-        document.querySelector("#cartItem14"), // Recreation
-        // 15 is not in 2012 data
-        document.querySelector("#cartItem16") // Other 
-    ];
-
-    // function to calculate coins in use at the beginning 
-    // loop through all the carts, 
-    // get counter value, divide that value by the coinWeight index
-    // multiply that value by the number of coins in the counter
-    // store it in a global variable that keeps track of coins in use 
-
+    // Calculate Pie Chart Data 
+    function calculatePieChart(numbers, index) {
+        let num;
+        for (let i = index; i < (index + 1) ; i++) {
+            num = ((numbers[index] / numbers.length) * 100).toFixed(2)
+            return parseInt(num)
+        }
+    }
 
     // using bind for 'this' (binds this to .minus)
     $(".minus").bind("click touchstart", function (e) {
+        $(".plus").css("pointer-events", "initial");
+        console.log(coinWeights)
+        var btn = $(this)
         e.stopImmediatePropagation();
         e.preventDefault();
         let id = this.parentElement.id
@@ -356,21 +315,17 @@ $(document).ready(function () {
                 setTimeout(function () {
                     $(".counter-feedback").text("");
                     $(".counter-feedback").css("opacity", "0");
-                }, 3000);
+                }, 5000);
             }
         }
-        // function to return coin weights to orginal value
-        // re-update coin weights array by multiplying index by 100 and then re-update highcharts
+
         function calcDifferenceMinus(index) {
+            let currCoins = coinsTotal;
             coinWeights[index] -= 1
             coinsTotal -= 1
-         
-            //let numDifMinus = coinWeights[index] / counterNum;
-            //globalDiff = numDifMinus;
-            //coinsTotal -= numDifMinus;
-            //if (coinWeights[index] < 1) {
-            //    coinWeights[index] = 0
-            //} //let val = // coinWeights[index]
+            if (coinWeights[index] <= 0) {
+                btn.css("pointer-events", "none");
+            }
         }
         if (id === "cartItem1") {
             calcDifferenceMinus(0);
@@ -391,35 +346,46 @@ $(document).ready(function () {
         } else if (id === "cartItem9") {
             // do nothing - html currently commented out
         } else if (id === "cartItem10") {
-            calcDifferenceMinus(9);
+            calcDifferenceMinus(8);
         } else if (id === "cartItem11") {
-            calcDifferenceMinus(10);
+            calcDifferenceMinus(9);
         } else if (id === "cartItem12") {
-            calcDifferenceMinus(11);
+            calcDifferenceMinus(10);
         } else if (id === "cartItem13") {
-            calcDifferenceMinus(12);
+            calcDifferenceMinus(11);
         } else if (id === "cartItem14") {
-            calcDifferenceMinus(13);
+            calcDifferenceMinus(12);
         } else if (id === "cartItem15") {
             // do nothing - html currently commented out
         } else if (id === "cartItem16") {
             calcDifferenceMinus(13);
         }
         calculatePersonal(jsonData);
-    });
 
+
+
+    });
+    // using bind for 'this' (binds this to .plus)
     $(".plus").bind("click touchstart", function (e) {
+
+        var btn = $(this)
+        btn.prev().css("pointer-events", "initial");
         e.stopImmediatePropagation();
         e.preventDefault();
         let id = this.parentElement.id;
         let counter = this.parentElement.firstElementChild;
         let counterNum = counter.innerHTML;
+
+
+
+
         if (total > 0) {
             let counter = this.parentElement.firstElementChild;
             this.parentElement.insertAdjacentHTML("beforeend", coinHTML);
             counter.innerHTML++;
             let counterNum = parseInt(counter.innerHTML);
-            if (counterNum === 9) {
+            if (counterNum === 6) {
+
                 $(".counter-feedback").text("Container Full");
                 $(".counter-feedback").css("opacity", "1");
                 setTimeout(function () {
@@ -427,6 +393,10 @@ $(document).ready(function () {
                     $(".counter-feedback").css("opacity", "0");
                 }, 3000);
                 this.style.pointerEvents = "none";
+            }
+            if (counterTotal.innerHTML <= 0) {
+                counterTotal.innerHTML = 1;
+                console.log("added 1")
             }
             counterTotal.innerHTML--;
             total--;
@@ -436,13 +406,14 @@ $(document).ready(function () {
             setTimeout(function () {
                 $(".counter-feedback").text("");
                 $(".counter-feedback").css("opacity", "0");
-            }, 3000);
+            }, 5000);
         }
 
         function calcDifferencePlus(index) {
-            coinWeights[index] += 1
-            coinsTotal += 1
-            
+            if (coinsTotal < 44) {
+                coinWeights[index] += 1
+                coinsTotal += 1
+            }
         }
         if (id === "cartItem1") {
             calcDifferencePlus(0);
@@ -477,151 +448,160 @@ $(document).ready(function () {
         } else if (id === "cartItem16") {
             calcDifferencePlus(13);
         }
+
+        if (counterTotal.innerHTML === "2" && document.getElementById("OwnerOccupiedHome").checked) {
+            $(".plus").css("pointer-events", "none");
+            $(".counter-feedback").text("Error");
+            $(".counter-feedback").css("opacity", "1");
+            setTimeout(function () {
+                $(".counter-feedback").text("");
+                $(".counter-feedback").css("opacity", "0");
+            }, 5000);
+        }
+
+
         calculatePersonal(jsonData);
+        calculatePercentage(personalCPI)
+
+      
+
+
     });
-    // Check toggle states
+
+
+
+    // Check toggle states, update coin weights on initial quesitons
     $("input[type='radio']").change(changeState);
 
     function changeState() {
-        if (this.value === "Mortgaged Owner Occupied Home") {
 
+
+
+        let currWeight = 0;
+
+        if (this.value === "Mortgaged Owner Occupied Home") {
             $("#cartItem5").addClass("overlay");
             $("#cartItem6, #cartItem7").removeClass("overlay");
+            currWeight = coinWeights[4];
+            coinWeights[4] = 0;
+            coinsTotal -= currWeight;
+            currWeight = coinWeights[5];
+            coinWeights[5] = 2
+            coinsTotal -= currWeight - 2;
+            rePopulate("#cartItem6", 2);
 
-            if (coinWeights[4] === 5) {
-                coinWeights[4] = 0;
-                coinsTotal -= 5;
-          
-            }
-        
-            if (coinWeights[5] === 0) {
-                coinWeights[5] = 5
-                coinsTotal += 5;
-           
-            }
+        }
 
-        } else if (this.value === "Owner Occupied Home (No Mortgage)") {
+        else if (this.value === "Owner Occupied Home (No Mortgage)") {
 
             $("#cartItem5, #cartItem6").addClass("overlay");
             $("#cartItem7").removeClass("overlay");
 
-            if (coinWeights[4] === 5) {
-                coinWeights[4] = 0;
-                coinsTotal -= 5;
-              
-            }
+            currWeight = coinWeights[4];
+            coinWeights[4] = 0;
+            coinsTotal -= currWeight;
+            currWeight = coinWeights[5];
+            coinWeights[5] = 0
+            coinsTotal -= currWeight;
+            $("#cartItem5 .unit").remove();
+            $("#cartItem6 .unit").remove();
 
-            if (coinWeights[5] === 5) {
-                coinWeights[5] = 0;
-                coinsTotal -= 5;
-           
-            }
-           
-        } else if (this.value === "Rental Accommodation") {
 
+        }
+
+        else if (this.value === "Rental Accommodation") {
             $("#cartItem6").addClass("overlay");
             $("#cartItem5, #cartItem7").removeClass("overlay");
 
-            if (coinWeights[5] === 5) {
-                coinWeights[5] = 0;
-                coinsTotal -= 5;
-             
-            }
-            if (coinWeights[4] === 0) {
-                coinWeights[4] = 5;
-                coinsTotal += 5;
-            
-            }
-            
-        } else if (this.value === "Car-Yes") {
+            currWeight = coinWeights[4];
+            coinWeights[4] = 2;
+            coinsTotal -= currWeight - 2;
+            rePopulate("#cartItem5", 2);
+            currWeight = coinWeights[5];
+            coinWeights[5] = 0
+            coinsTotal -= currWeight;
 
+
+        }
+
+        else if (this.value === "Car-Yes") {
             $("#cartItem10").removeClass("overlay");
 
-            if (coinWeights[8] === 0) {
-                coinWeights[8] = 14;
-                coinsTotal += 14;
-             
-            }
-            
-        } else if (this.value === "Car-No") {
+            currWeight = coinWeights[8];
+            coinWeights[8] = 6;
+            coinsTotal -= currWeight - 6;
+            rePopulate("#cartItem10", 6);
 
+        }
+
+        else if (this.value === "Car-No") {
             $("#cartItem10").addClass("overlay");
+            currWeight = coinWeights[8];
+            coinWeights[8] = 0;
+            coinsTotal -= currWeight;
 
-            if (coinWeights[8] === 14) {
-                coinWeights[8] = 0;
-                coinsTotal = coinsTotal - 14;
-            
-            }
-           
-        } else if (this.value === "Smoker-Yes") {
+        }
 
+        else if (this.value === "Smoker-Yes") {
             $("#cartItem3").removeClass("overlay");
 
-            if (coinWeights[2] === 0) {
-                coinWeights[2] = 3;
-                coinsTotal = coinsTotal + 3;
-               
-            }
-           
-        } else if (this.value === "Smoker-No") {
+            currWeight = coinWeights[2];
+            coinWeights[2] = 1;
+            coinsTotal -= currWeight - 1;
+            rePopulate("#cartItem3", 1);
+        }
 
+        else if (this.value === "Smoker-No") {
             $("#cartItem3").addClass("overlay");
+            currWeight = coinWeights[2];
+            coinWeights[2] = 0;
+            coinsTotal -= currWeight;
+        }
 
-            if (coinWeights[2] === 3) {
-                coinWeights[2] = 0;
-                coinsTotal = coinsTotal - 3;
-             
-            }
-            
-        } else if (this.value === "Drinker-Yes") {
-
+        else if (this.value === "Drinker-Yes") {
             $("#cartItem2").removeClass("overlay");
+            currWeight = coinWeights[1];
+            coinWeights[1] = 4;
+            coinsTotal -= currWeight - 4;
+            rePopulate("#cartItem2", 4);
+        }
 
-            if (coinWeights[1] === 0) {
-                coinWeights[1] = 9;
-                coinsTotal = coinsTotal + 9;
-              
-            }
-           
-        } else if (this.value === "Drinker-No") {
+        else if (this.value === "Drinker-No") {
             $("#cartItem2").addClass("overlay");
-
-            if (coinWeights[1] === 9) {
-                coinWeights[1] = 0;
-                coinsTotal = coinsTotal - 9;
-              
-            }
-            
+            currWeight = coinWeights[1];
+            coinWeights[1] = 0;
+            coinsTotal -= currWeight;
         }
+
         calculatePersonal(jsonData);
-  console.log(coinWeights)
+        calculatePercentage(personalCPI);
+
     }
- 
 
-    wage = 2000;
-
-    // Calculate average weights
-    function calculateWeights(arr) {
-        for (let i = 0; i < arr.length; i++) {
-            calculatedWeights.push(arr[i] * wage);
+    function rePopulate(selector, num) {
+        let unit = document.querySelector(".unit");
+        let location = document.querySelector(selector);
+        let nodelist = location.querySelectorAll(".unit").length
+        if (nodelist === 0) {
+            for (let i = 1; i <= num; i++) {
+                location.insertAdjacentHTML("beforeend", coinHTML);
+            }
         }
+        if (selector === "#cartItem6") {
+            $("#cartItem5 .unit").remove();
+        } else if (selector === "#cartItem5") {
+            $("#cartItem6 .unit").remove();
+        }
+
     }
 
-    calculateWeights(avg);
 
-    // Calculate coins based on €50 per coin
-    function calculateCoins(index) {
-        return Math.round(calculatedWeights[index] / 30);
-    };
-
-    // Populate containers with average weights, populate counters
     function populate() {
         let total = 0;
         for (let i = 0; i < containers.length; i++) {
             let item = containers[i];
             let span = item.firstElementChild;
-            let num = calculateCoins(i);
-            obj[item.title] = num
+            let num = coinWeights[i];
             for (let i = 1; i <= num; i++) {
                 item.insertAdjacentHTML("beforeend", coinHTML);
             }
@@ -630,131 +610,186 @@ $(document).ready(function () {
             newArr.push(num);
         }
     };
-
     populate();
 
 
-    // Auto Adjust
+    // Get previous selection 
+
+    var prev;
+
+    $("label").on("mousedown", function () {
+        prev = $('input[type=radio]:checked').val()
+    });
+
+    // Auto Adjust Table
+
     $("input[type='radio']").change(autoAdjust);
 
     function autoAdjust(event) {
 
         let currVal;
         let currVal2;
+        var count = parseInt(counterTotal.innerHTML, 10);
 
         if ($(this).val() === "Mortgaged Owner Occupied Home") {
-            currVal = document.querySelector("#cartItem5 > .counter").innerHTML
+
+            if (prev === "Owner Occupied Home (No Mortgage)") {
+                for (let i = 0; i < 2; i++) { counterTotal.innerHTML--; }
+            } else {
+                // do nothing
+            }
+
             if (currVal > 0) {
+
                 for (let i = 0; i < currVal; i++) {
                     counterTotal.innerHTML++;
                     total++;
-                    document.querySelector("#cartItem5 .unit").remove();
+                    $("#cartItem5 .unit").remove();
                 }
-                document.querySelector("#cartItem5 > .counter").innerHTML = 0;
+                $("#cartItem5 > .counter").html("0");
+
             } else {
                 // do nothing
             }
         } else if ($(this).val() === "Owner Occupied Home (No Mortgage)") {
-            currVal = document.querySelector("#cartItem5 > .counter").innerHTML
-            currVal2 = document.querySelector("#cartItem6 > .counter").innerHTML
+
+            if (prev === "Rental Accommodation" || prev === "Mortgaged Owner Occupied Home") {
+                for (let i = 0; i < 2; i++) { counterTotal.innerHTML++; }
+            }
+
+            currVal = $("#cartItem5 > .counter").html();
+            currVal2 = $("#cartItem6 > .counter").html();
+            for (let i = 0; i < currVal; i++) { counterTotal.innerHTML--; }
             if (currVal > 0) {
                 for (let i = 0; i < currVal; i++) {
                     counterTotal.innerHTML++;
                     total++;
-                    document.querySelector("#cartItem5 .unit").remove();
+                    $("#cartItem5 .unit").remove();
                 }
-                document.querySelector("#cartItem5 > .counter").innerHTML = 0;
+                $("#cartItem5 > .counter").html("0");
             } else {
                 // do nothing
             }
             if (currVal2 > 0) {
+                console.log("currVal2")
                 for (let i = 0; i < currVal2; i++) {
                     counterTotal.innerHTML++;
                     total++;
-                    document.querySelector("#cartItem6 .unit").remove();
+                    $("#cartItem6 .unit").remove();
                 }
-                document.querySelector("#cartItem6 > .counter").innerHTML = 0;
+                $("#cartItem6 > .counter").html("0");
             } else { }
         } else if ($(this).val() === "Rental Accommodation") {
-            currVal = document.querySelector("#cartItem6 > .counter").innerHTML
+
+            if (prev === "Owner Occupied Home (No Mortgage)") {
+                for (let i = 0; i < 2; i++) { counterTotal.innerHTML--; }
+            } else {
+                // do nothing
+            }
+
+            currVal = $("#cartItem6 > .counter").html();
             if (currVal > 0) {
                 for (let i = 0; i < currVal; i++) {
                     counterTotal.innerHTML++;
                     total++;
-                    document.querySelector("#cartItem6 .unit").remove();
+                    $("#cartItem6 .unit").remove();
                 }
-                document.querySelector("#cartItem6 > .counter").innerHTML = 0;
+                $("#cartItem6 > .counter").html("0");
             } else {
                 // do nothing
             }
         } else if ($(this).val() === "Smoker-Yes") {
-            // select Smoker Yes
+            currVal = $("#cartItem3 > .counter").html("1");
+            for (let i = 0; i < 1; i++) { counterTotal.innerHTML--; }
         } else if ($(this).val() === "Smoker-No") {
-            currVal = document.querySelector("#cartItem3 > .counter").innerHTML
+            currVal = $("#cartItem3 > .counter").html();
             if (currVal > 0) {
                 for (let i = 0; i < currVal; i++) {
                     counterTotal.innerHTML++;
                     total++;
-                    document.querySelector("#cartItem3 .unit").remove();
+                    $("#cartItem3 .unit").remove();
                 }
-                document.querySelector("#cartItem3 > .counter").innerHTML = 0;
+                $("#cartItem3 > .counter").html("0");
             } else {
                 // do nothing
             }
         } else if ($(this).val() === "Insurance-Yes") {
             // do nothing
         } else if ($(this).val() === "Insurance-No") {
-            currVal = document.querySelector("#cartItem9 > .counter").innerHTML
+            currVal = $("#cartItem9 > .counter").html();
             if (currVal > 0) {
                 for (let i = 0; i < currVal; i++) {
                     counterTotal.innerHTML++;
                     total++;
-                    document.querySelector("#cartItem9 .unit").remove();
+                    $("#cartItem9 .unit").remove();
                 }
-                document.querySelector("#cartItem9 > .counter").innerHTML = 0;
+                $("#cartItem9 > .counter").html("0");
             } else {
                 // do nothing
             }
         } else if ($(this).val() === "Drinker-Yes") {
-            // select Alcohol Yes
+            currVal = $("#cartItem2 > .counter").html("4");
+            for (let i = 0; i < 4; i++) { counterTotal.innerHTML--; }
         } else if ($(this).val() === "Drinker-No") {
-            currVal = document.querySelector("#cartItem2 > .counter").innerHTML
+            currVal = $("#cartItem2 > .counter").html();
             if (currVal > 0) {
                 for (let i = 0; i < currVal; i++) {
                     counterTotal.innerHTML++;
                     total++;
-                    document.querySelector("#cartItem2 .unit").remove();
+                    $("#cartItem2 .unit").remove();
                 }
-                document.querySelector("#cartItem2 > .counter").innerHTML = 0;
+                $("#cartItem2 > .counter").html("0");
             } else {
                 // do nothing
             }
         } else if ($(this).val() === "Car-Yes") {
-            // select Car Yes
+            currVal = $("#cartItem10 > .counter").html("6");
+            for (let i = 0; i < 6; i++) { counterTotal.innerHTML--; }
         } else if ($(this).val() === "Car-No") {
-            currVal = document.querySelector("#cartItem10 > .counter").innerHTML
+            currVal = $("#cartItem10 > .counter").html();
             if (currVal > 0) {
                 for (let i = 0; i < currVal; i++) {
                     counterTotal.innerHTML++;
                     total++;
-                    document.querySelector("#cartItem10 .unit").remove();
+                    $("#cartItem10 .unit").remove();
                 }
-                document.querySelector("#cartItem10 > .counter").innerHTML = 0;
+                $("#cartItem10 > .counter").html("0");
+
             } else {
                 // do nothing
             }
         }
-        //  calculatePersonal(jsonData);
     }
 
-    function renderHighchart() {
+    $("#lineChart").on("click", function () {
+        renderHighchart(personalCPI, nationalCPI, 'Personal Inflation', 'National Inflation');
+        $(".chart1").removeClass("close");
+        $(".chart2").addClass("close");
+    });
+    $("#percentageChart").on("click", function () {
+        renderHighchart(percentageChangePersonal, percentageChangeNational, 'Personal Inflation Percentage Change', 'National Inflation Percentage Change');
+        $(".chart1").removeClass("close");
+        $(".chart2").addClass("close");
+    });
+
+    $("#pieChart").on("click", function () {
+        $(".chart1").addClass("close");
+        $(".chart2").removeClass("close");
+    });
+
+    $("#reset").on("click", function () {
+        location.reload();
+    });
+    console.log(personalCPI)
+    function renderHighchart(data1, data2, text1, text2) {
+
         Highcharts.chart('container', {
             title: {
                 text: 'Personal Inflation 2012'
             },
             yAxis: {
                 title: {
-                    text: 'Percentage'
+                    text: ''
                 }
             },
             xAxis: {
@@ -773,11 +808,11 @@ $(document).ready(function () {
                 }
             },
             series: [{
-                name: 'Personal Inflation',
-                data: personalCPI
+                name: text1,
+                data: data1
             }, {
-                name: 'National Inflation',
-                data: nationalCPI
+                name: text2,
+                data: data2
             }],
             responsive: {
                 rules: [{
@@ -794,6 +829,83 @@ $(document).ready(function () {
                 }]
             }
         });
-    }
 
+        Highcharts.chart('container2', {
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie'
+            },
+            title: {
+                text: 'Percentage Breakdown'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        }
+                    }
+                }
+            },
+            series: [{
+                name: 'Catergories',
+                colorByPoint: true,
+                data: [{
+                    name: 'Food',
+                    y: calculatePieChart(coinWeights, 0)
+                }, {
+                    name: 'Alcohol',
+                    y: calculatePieChart(coinWeights, 1)
+                }, {
+                    name: 'Tobacco',
+                    y: calculatePieChart(coinWeights, 2)
+                }, {
+                    name: 'Clothing',
+                    y: calculatePieChart(coinWeights, 3)
+                }, {
+                    name: 'Rent',
+                    y: calculatePieChart(coinWeights, 4)
+                }, {
+                    name: 'Mortage',
+                    y: calculatePieChart(coinWeights, 5)
+                }, {
+                    name: 'Housing',
+                    y: calculatePieChart(coinWeights, 6)
+                }, {
+                    name: 'Health',
+                    y: calculatePieChart(coinWeights, 7)
+                }, {
+                    name: 'Car',
+                    y: calculatePieChart(coinWeights, 8)
+                }, {
+                    name: 'Public Transport',
+                    y: calculatePieChart(coinWeights, 9)
+                }, {
+                    name: 'Telecommunications',
+                    y: calculatePieChart(coinWeights, 10)
+                }, {
+                    name: 'Recreation',
+                    y: calculatePieChart(coinWeights, 11)
+                }, {
+                    name: 'Education',
+                    y: calculatePieChart(coinWeights, 12)
+                }, {
+                    name: 'Other',
+                    y: calculatePieChart(coinWeights, 13)
+                }, {
+                    name: 'Other',
+                    y: calculatePieChart(coinWeights, 14)
+                }]
+            }]
+        });
+    }
 });
