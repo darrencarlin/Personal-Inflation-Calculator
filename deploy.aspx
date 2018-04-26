@@ -20,7 +20,7 @@
 <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@1.5.3/src/loadingoverlay.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@1.5.3/extras/loadingoverlay_progress/loadingoverlay_progress.min.js"></script>
 <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
-
+<script src="https://unpkg.com/tippy.js@2.4.1/dist/tippy.all.min.js"></script>
 <!-- LOCAL DEVELOPMENT RESOURCES-->
 <script src="js/script.js"></script>
 <link href="css/index.min.css" rel="stylesheet" />
