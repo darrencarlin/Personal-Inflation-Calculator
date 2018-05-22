@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="ie=edge" http-equiv="X-UA-Compatible">
+    <title>Personal Inflation Calculator</title>
+    <link rel="stylesheet" href="css/index.min.css">
+    
+</head>
+<body>
+    <!-- Container Start -->
+    <div class="container">
+        <!-- Section A Start -->
+        <div class="row section-a">
+            <!-- Introduction Left Start -->
+            <div class="column">
+                <h2>How far does your euro go?</h2>
+                <p>The price of goods and services are always rising or galling and this can affect you more or less based on how you spend your money. Some categories of spending can have high impact: housing, driving, alcohol and tabacco.</p>
+                <!-- <ul class="lifestyle-factors">
+                    <li><span>Housing</span> <img alt="" class="cart-icon" src="images/housing_indicator.gif"></li>
+                    <li><span>Smoking</span> <img alt="" class="cart-icon" src="images/smoker_indicator.gif"></li>
+                    <li><span>Alcohol</span> <img alt="" class="cart-icon" src="images/alcohol_64.gif"></li>
+                    <li><span>Transport</span> <img alt="" class="cart-icon" src="images/pub_transport_64.gif"></li>
+                </ul> -->
+                <img src="images/Spending_Factors.gif" alt="Spending factors: housing, smoking, alcohol, transport">
+                <p>Try our simple calculator below to see the inflation rate change based on your spending.</p>
+                <!-- <h3>Inflation</h3>
+                <p>The overall effect of rising and falling consumer prices is called inflation. Inflation is a trend which can show you how far your money can go.</p>
+                <h3>Choose your inflation year</h3><select class="year-select" id="yearSelect">
+                </select> -->
+            </div><!-- Introduction Left End -->
+            <!-- Introduction Right Start -->
+            <div class="column">
+                <div class="glance">
+                    <h2>Inflation at a glance</h2>
+                    <p>In 2001, &euro;1 would buy you XXX.</p>
+                    <p>In 2018 it costs &euro;1.23.</p>
+                    <p>Thats inflation in action</p>
+                </div>
+            </div><!-- Introduction Right End -->
+        </div><!-- Section A End -->
+        <!-- Section B Start -->
+        <div class="row section-b">
+            <!-- Radio Buttons Start -->
+            <div class="column">
+                <div class="form">
+                    <div class="highcharts-line-text">
+                        <h3>Your Spending Pattern</h3>
+                    </div>
+                    <div class="form-housing">
+                        <fieldset class="form-fieldset">
+                            <div class="form-item-container">
+                                <div class="form-icon"><img alt="" class="cart-icon" src="images/housing_indicator.png"></div><span class="mobile-icon">Current Housing Situation <img alt="" class="cart-icon" src="images/housing_indicator.gif"></span> <input class="housing" id="MortgagedOwnerOccupiedHome" name="housing" type="radio" value="Mortgaged Owner Occupied Home"> <label for="MortgagedOwnerOccupiedHome">Mortgage</label> <input class="housing" id="OwnerOccupiedHome" name="housing" type="radio" value="Owner Occupied Home (No Mortgage)"> <label for="OwnerOccupiedHome">Owner</label> <input checked class="housing" id="RentalAccommodation" name="housing" type="radio" value="Rental Accommodation"> <label for="RentalAccommodation">Rent</label>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="form-smoking">
+                        <fieldset class="form-fieldset">
+                            <div class="form-item-container">
+                                <div class="form-icon">
+                                    <img alt="" class="cart-icon" src="images/smoker_indicator.png">
+                                </div>
+                                <span class="mobile-icon">Do you smoke? <img alt="" class="cart-icon" src="images/smoker_indicator.png"></span> 
+                                <input class="smoking" id="smokerYes" name="smoking" type="radio" value="Smoker-Yes"> <label for="smokerYes">Yes</label> <input checked class="smoking" id="smokerNo" name="smoking" type="radio" value="Smoker-No"> <label for="smokerNo">No</label>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="form-alcohol">
+                        <fieldset class="form-fieldset">
+                            <div class="form-item-container">
+                                <div class="form-icon"><img alt="" class="cart-icon" src="images/drinker_indicator.png"></div><span class="mobile-icon">Do you drink? <img alt="" class="cart-icon" src="images/alcohol_64.gif"></span> <input checked class="alcohol" id="alcoholYes" name="alcohol" type="radio" value="Drinker-Yes"> <label for="alcoholYes">Yes</label> <input class="alcohol" id="alcoholNo" name="alcohol" type="radio" value="Drinker-No"> <label for="alcoholNo">No</label>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="form-car">
+                        <fieldset class="form-fieldset">
+                            <div class="form-item-container">
+                                <div class="form-icon"><img alt="" class="cart-icon" src="images/private_car_indicator.png"></div><span class="mobile-icon">Do you drive? <img alt="" class="cart-icon" src="images/private_car_indicator.gif"></span> <input checked class="car" id="carYes" name="car" type="radio" value="Car-Yes"> <label for="carYes">Yes</label> <input class="car" id="carNo" name="car" type="radio" value="Car-No"> <label for="carNo">No</label>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div> 
+                      <!-- <h3>Choose your inflation year</h3> -->
+                      <!-- <select class="year-select" id="yearSelect"></select> -->
+            </div><!-- Radio Buttons End -->
+            <!-- Highcharts Start -->
+            <div class="column">
+                <div class="highcharts-line-text">
+                    <h3>Your Personal Inflation Rate</h3>
+                </div>
+                <h3 class="output-text"></h3>
+                <div class="highcarts chart1" id="container"></div>
+              
+            </div><!-- Highcharts End -->
+         
+        </div><!-- Section B End -->
+        <!-- Section C Start -->
+        <div class="row section-c">
+            <!-- Coins Start -->
+            <div class="column">
+                <h2>Whats in your basket?</h2>
+                <p>The National Inflation rate is based on a standard basket of goods. This basket is monitored quarterly for price changes.</p>
+                <p>Different spending categories are weighted based on their impact on inflation</p>
+                <h2>Your spending pattern</h2>
+                <p>Adjust the spending catergories below to match your own spending pattern and see how your personal inflation rate changes.</p>
+                <div class="cart-theme-remaining"></div>
+                <div class="remaining">
+                    <h3 class="remaining-heading">Coins Remaining</h3>
+                    <div class="remaining-counter">
+                        <div class="btn-container total-remain">
+                            <div class="counter-total remaining" id="counterTotal">
+                                2
+                            </div>
+                            <div class="counter-feedback remaining"></div> 
+                        </div>
+                    </div>
+                </div>
+            </div><!-- Coins End -->
+            <!-- Pie Chart Start -->
+            <div class="column">
+                <h2>Affects your inflation</h2>
+                <div class="highcarts chart2" id="container2"></div>
+            </div><!-- Pie Chart End -->
+        </div><!-- Section C End -->
+        <!-- Section D Start -->
+        <div class="row section-d">
+            <!-- Carts Start -->
+            <div class="column">
+                <div class="cart" id="cart">
+                    <div class="cart-theme-general">
+                        <h2>General</h2>
+                        <div class="carts">
+                            <div class="cart_">
+                                <div class="cart-item" id="cartItem1" title="Food">
+                                    <span class="counter"></span> 
+                                    <span class="icon"><img alt="Food and beverages icon" class="cart-icon" src="images/food_bev_64.gif"></span>
+                                    <div class="controls">
+                                            <span class="minus" id="minus"><i aria-hidden="true" class="fas fa-minus fa-2x"></i></span> 
+                                            <span class="plus" id="plus"><i aria-hidden="true" class="fas fa-plus fa-2x"></i></span>
+                                        </div>
+                                    <div class="basket">
+                                          
+                                    </div>
+                                
+                                </div>
+                                <h3>Food &amp; Beverages</h3>
+                            </div>
+                            <div class="cart_">
+                                <div class="cart-item" id="cartItem4" title="Clothing">
+                                    <span class="counter"></span> 
+                                    <span class="icon"><img alt="Clothing icon" class="cart-icon" src="images/clothes_64.gif"></span> 
+                                    <div class="controls">
+                                            <span class="minus" id="minus"><i aria-hidden="true" class="fas fa-minus fa-2x"></i></span> 
+                                            <span class="plus" id="plus"><i aria-hidden="true" class="fas fa-plus fa-2x"></i></span>
+                                        </div>
+                                    <div class="basket">
+                                           
+                                    </div>
+                                </div>
+                                <h3>Clothing</h3>
+                            </div>
+                            <div class="cart_">
+                                <div class="cart-item" id="cartItem12" title="Telecommunication">
+                                    <span class="counter"></span> 
+                                    <span class="icon"><img alt="Telecommunications icon" class="cart-icon" src="images/telecomms_64.gif"></span> 
+                                    <div class="controls">
+                                            <span class="minus" id="minus"><i aria-hidden="true" class="fas fa-minus fa-2x"></i></span> 
+                                            <span class="plus" id="plus"><i aria-hidden="true" class="fas fa-plus fa-2x"></i></span>
+                                        </div>
+                                    <div class="basket">
+                                           
+                                    </div>
+                                </div>
+                                <h3>Mobile</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cart-theme-housing">
+                        <h2>Housing</h2>
+                        <div class="carts">
+                            <div class="cart_">
+                                <div class="cart-item" id="cartItem5" title="Rent">
+                                    <span class="counter"></span>
+                                     <span class="icon"><img alt="Rental icon" class="cart-icon" src="images/rent_64.gif"></span> 
+                                     <div class="controls">
+                                            <span class="minus" id="minus"><i aria-hidden="true" class="fas fa-minus fa-2x"></i></span> 
+                                            <span class="plus" id="plus"><i aria-hidden="true" class="fas fa-plus fa-2x"></i></span>
+                                        </div>
+                                    <div class="basket">
+                                         
+                                    </div>
+                                </div>
+                                <h3>Rent</h3>
+                            </div>
+                            <div class="cart_">
+                                <div class="cart-item" id="cartItem6" title="Mortgage">
+                                    <span class="counter"></span> 
+                                    <span class="icon"><img alt="Mortgage icon" class="cart-icon" src="images/mortgage_64.gif"></span> 
+                                    <div class="controls">
+                                            <span class="minus" id="minus"><i aria-hidden="true" class="fas fa-minus fa-2x"></i></span> 
+                                            <span class="plus" id="plus"><i aria-hidden="true" class="fas fa-plus fa-2x"></i></span>
+                                        </div>
+                                    <div class="basket">
+                                        
+                                    </div>
+                                </div>
+                                <h3>Mortgage</h3>
+                            </div>
+                            <div class="cart_">
+                                <div class="cart-item" id="cartItem7" title="HousingCost">
+                                    <span class="counter"></span> 
+                                    <span class="icon"><img alt="Housing icon" class="cart-icon" src="images/housing_costs_64.gif"></span> 
+                                    <div class="controls">
+                                            <span class="minus" id="minus"><i aria-hidden="true" class="fas fa-minus fa-2x"></i></span> 
+                                            <span class="plus" id="plus"><i aria-hidden="true" class="fas fa-plus fa-2x"></i></span>
+                                        </div>
+                                    <div class="basket">
+                                          
+                                    </div>
+                                </div>
+                                <h3>Housing Costs</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cart-theme-health">
+                        <h2>Health</h2>
+                        <div class="carts">
+                            <div class="cart_">
+                                <div class="cart-item" id="cartItem8" title="Hospital">
+                                    <span class="counter"></span> 
+                                    <span class="icon"><img alt="Health icon" class="cart-icon" src="images/health_64.gif"></span> 
+                                    <div class="controls">
+                                            <span class="minus" id="minus"><i aria-hidden="true" class="fas fa-minus fa-2x"></i></span> 
+                                            <span class="plus" id="plus"><i aria-hidden="true" class="fas fa-plus fa-2x"></i></span>
+                                        </div>
+                                    <div class="basket">
+                                           
+                                    </div>
+                                </div>
+                                <h3>Health</h3>
+                            </div>
+                            <div class="cart_">
+                                <div class="cart-item" id="cartItem13" title="Education">
+                                    <span class="counter"></span> 
+                                    <span class="icon"><img alt="Education icon" class="cart-icon" src="images/education_64.gif"></span>
+                                    <div class="controls">
+                                            <span class="minus" id="minus"><i aria-hidden="true" class="fas fa-minus fa-2x"></i></span> 
+                                            <span class="plus" id="plus"><i aria-hidden="true" class="fas fa-plus fa-2x"></i></span>
+                                        </div>
+                                    <div class="basket">
+                                           
+                                    </div>
+                                </div>
+                                <h3>Education</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cart-theme-recreation">
+                        <h2>Recreation</h2>
+                        <div class="carts">
+                        <div class="cart_">
+                            <div class="cart-item" id="cartItem2" title="Alcohol">
+                                <span class="counter"></span> 
+                                <span class="icon"><img alt="Alcohol icon" class="cart-icon" src="images/alcohol_64.gif"></span>
+                                <div class="controls">
+                                        <span class="minus" id="minus"><i aria-hidden="true" class="fas fa-minus fa-2x"></i></span> 
+                                        <span class="plus" id="plus"><i aria-hidden="true" class="fas fa-plus fa-2x"></i></span>
+                                    </div>
+                                <div class="basket">
+                                      
+                                </div>
+                            </div>
+                            <h3>Alcohol</h3>
+                        </div>
+                        <div class="cart_">
+                            <div class="cart-item" id="cartItem3" title="Tobacco">
+                                <span class="counter"></span> 
+                                <span class="icon"><img alt="Smoking icon" class="cart-icon" src="images/tobacco_64.gif"></span> 
+                                <div class="controls">
+                                        <span class="minus" id="minus"><i aria-hidden="true" class="fas fa-minus fa-2x"></i></span> 
+                                        <span class="plus" id="plus"><i aria-hidden="true" class="fas fa-plus fa-2x"></i></span>
+                                    </div>
+                                <div class="basket">
+                                      
+                                </div>
+                            </div>
+                            <h3>Tobacco</h3>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="cart-theme-transport">
+                        <h2>Transportation</h2>
+                        <div class="carts">
+                        <div class="cart_">
+                            <div class="cart-item" id="cartItem10" title="Car">
+                                <span class="counter"></span> 
+                                <span class="icon"><img alt="Car icon" class="cart-icon" src="images/car_64.gif"></span>
+                                <div class="controls">
+                                        <span class="minus" id="minus"><i aria-hidden="true" class="fas fa-minus fa-2x"></i></span> 
+                                        <span class="plus" id="plus"><i aria-hidden="true" class="fas fa-plus fa-2x"></i></span>
+                                    </div>
+                                <div class="basket">
+                                      
+                                </div>
+                            </div>
+                            <h3>Car</h3>
+                        </div>
+                        <div class="cart_">
+                            <div class="cart-item" id="cartItem11" title="Public Transport">
+                                <span class="counter"></span> 
+                                <span class="icon"><img alt="Bus icon" class="cart-icon" src="images/pub_transport_64.gif"></span> 
+                                <div class="controls">
+                                        <span class="minus" id="minus"><i aria-hidden="true" class="fas fa-minus fa-2x"></i></span> 
+                                        <span class="plus" id="plus"><i aria-hidden="true" class="fas fa-plus fa-2x"></i></span>
+                                    </div>
+                                <div class="basket">
+                                        
+                                </div>
+                            </div>
+                            <h3>Public Transport</h3>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="cart-theme-other">
+                        <h2>Entertainment</h2>
+                        <div class="carts">
+                        <div class="cart_">
+                            <div class="cart-item" id="cartItem14" title="Recreation">
+                                <span class="counter"></span> 
+                                <span class="icon"><img alt="Entertainment icon" class="cart-icon" src="images/entertainment_64.gif"></span> 
+                                <div class="controls">
+                                        <span class="minus" id="minus"><i aria-hidden="true" class="fas fa-minus fa-2x"></i></span> 
+                                        <span class="plus" id="plus"><i aria-hidden="true" class="fas fa-plus fa-2x"></i></span>
+                                    </div>
+                                <div class="basket">
+                                      
+                                        
+                                </div>
+                            </div>
+                            <h3>Recreation</h3>
+                        </div>
+                        <div class="cart_">
+                            <div class="cart-item" id="cartItem16" title="Other">
+                                <span class="counter"></span> 
+                                <span class="icon"><img alt="Entertainment icon" class="cart-icon" src="images/entertainment_64.gif"></span> 
+                                <div class="controls">
+                                        <span class="minus" id="minus"><i aria-hidden="true" class="fas fa-minus fa-2x"></i></span> 
+                                        <span class="plus" id="plus"><i aria-hidden="true" class="fas fa-plus fa-2x"></i></span>
+                                    </div>
+                                <div class="basket">
+                                 
+                                </div>
+                            </div>
+                            <h3>Other</h3>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div><!-- Carts End -->
+        </div><!-- Section D End -->
+    </div><!-- Container End -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+    </script> 
+    <script src="https://code.highcharts.com/highcharts.js">
+    </script> 
+    <script src="https://code.highcharts.com/modules/exporting.js">
+    </script> 
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js">
+    </script> 
+<script src="https://cdn.cso.ie/client/1.0.2/js/json-stat/0.13.3/min/json-stat.min.js"></script>
+
+    <script src="js/script.js"></script> 
+</body>
+</html>

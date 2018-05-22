@@ -1,0 +1,210 @@
+﻿.minus,
+.plus {
+    display: flex;
+    position: absolute;
+    // background-color: rgba(0, 0, 0, 0.50);
+    width: 35px;
+    height: 35px;
+    justify-content: center;
+    align-items: center;
+    z-index: 1001;
+    // transition: all ease .1s;
+    cursor: pointer;
+    color: #444;
+}
+
+.minus i, .plus i {
+    color: #fff;
+    padding: 15px;
+    font-size: 1.2em;
+}
+
+.counter,
+.counter-total {
+    border: 1px solid #ffffff;
+    font-size: 1.5em;
+    font-weight: 600;
+    background-color: #ffffff;
+    color: #222222;
+}
+
+.minus {
+    left: -15px;
+    bottom: 30px;
+}
+
+.plus {
+    right: -15px;
+    bottom: 30px;
+}
+
+/*.overlay {
+    background-color: #ccc;
+    opacity: .2;
+    pointer-events: none;
+    justify-content: flex-end;
+    transition: all 1s ease-in-out;
+}*/
+
+
+
+.overlay {
+    display: none;
+   
+}
+
+.overlay + h3 {
+    display: none;
+}
+
+
+
+.icon {
+    width: 100%;
+    position: absolute;
+    top: -65%; 
+    left: 0;
+    z-index: 98;
+    font-size: 1.2em;
+    margin: 10px auto;
+    letter-spacing: 1px;
+}
+
+.icon.smoking {
+    font-size: 2.5em;
+    top: -90%;
+}
+
+.counter {
+    background-color: #fff;
+    position: absolute;
+    width: 75px;
+    height: 35px;
+    top: -20px;
+    right: -12px;
+    border: 2px solid #5BC1A5;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    font-weight: 700;
+    font-size: 1.2em;
+    border-radius: 50px;
+}
+
+.title {
+    color: #fff;
+    font-size: 1.1em;
+    width: 100%;
+    position: absolute;
+    top: 5px;
+    left: 0;
+    z-index: 97;
+}
+
+
+.buttons {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+
+    .ui-btn {
+        margin: 15px;
+        width: 40%;
+    }
+}
+
+.counter-container {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    margin: 25px auto;
+    top: 0;
+}
+
+.counter-explanation {
+    width: 70%;
+    text-align: justify;
+    font-weight: 300;
+    font-size: 1.2em;
+    margin: 25px auto;
+
+    p {
+        margin: 10px;
+    }
+}
+
+.ui-select {
+    width: 100% !important;
+}
+
+
+// Introductory Text
+
+.intro-text {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    //border: 2px solid #ccc;
+    padding: 25px;
+    p, svg, h2 {
+        padding: 10px;
+    }
+}
+
+.intro-text.column {
+    flex-direction: column;
+
+    h2 {
+        margin: initial; 
+    }
+}
+ 
+.intro-left {
+    width: 70%;
+   // padding: 20px;
+   
+    .year-select {
+        margin: 15px 0 15px 15px;
+    }
+}
+
+
+.lifestyle-factors {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+
+
+    li {
+        display: flex;
+        flex-direction: column;
+        margin: 0 10px;
+
+        span {
+            font-weight: bold;
+        }
+    }
+}
+
+.intro-right {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+   // padding: 20px;
+   
+    
+
+    .glance {
+        border: 1px solid #ccc;
+      //  padding: 30px;
+        font-weight: bold;
+        background-color: #4ec06d;
+        color: #fff;  
+    }
+}
